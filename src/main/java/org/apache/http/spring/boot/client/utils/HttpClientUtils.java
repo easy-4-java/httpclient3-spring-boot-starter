@@ -8,11 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpConnectionManager;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.SimpleHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
@@ -48,7 +46,7 @@ public abstract class HttpClientUtils extends HttpRequestUtils {
 			Map<String, String> headers, ResponseHandler<T> handler)
 			throws IOException {
 		// 创建默认的httpClient实例.
-		HttpClient httpclient = HttpClientUtils.getCloseableHttpClient(httpConnectionManager);
+		HttpClient httpclient = new HttpClient();
 		// GetMethod对象
 		GetMethod httpMethod = null;
 		try {
@@ -101,7 +99,7 @@ public abstract class HttpClientUtils extends HttpRequestUtils {
 		// 定义初始对象
 		PostMethod httpMethod = null;
 		// 创建默认的httpClient实例.
-		HttpClient httpclient = HttpClientUtils.getCloseableHttpClient(httpConnectionManager);
+		HttpClient httpclient = new HttpClient();
 		try {
 			// 对HttpClient进行预处理
 			handler.handleClient(httpclient);
@@ -167,7 +165,7 @@ public abstract class HttpClientUtils extends HttpRequestUtils {
 		// 定义初始对象
 		PostMethod httpMethod = null;
 		// 创建默认的httpClient实例.
-		HttpClient httpclient = HttpClientUtils.getCloseableHttpClient(httpConnectionManager);
+		HttpClient httpclient = new HttpClient();
 		try {
 			//对HttpClient进行预处理
 			handler.handleClient(httpclient);
