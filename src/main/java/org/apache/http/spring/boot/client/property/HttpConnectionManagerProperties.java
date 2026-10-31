@@ -175,43 +175,7 @@ public class HttpConnectionManagerProperties extends HttpConnectionManagerParams
 		
 	}
 	
-	/*public static final String PREFIX = HttpclientProperties.PREFIX + ".connection-manager";
-	
-	private int maxHostConnections;
-	
-	private int maxConnectionsPerHost;
-	
-	private int maxTotalConnections;
-	/** Gets the max host connections. */
 
-	public int getMaxHostConnections() {
-		return maxHostConnections;
-	}
-	/** Sets the max host connections. */
-
-	public void setMaxHostConnections(int maxHostConnections) {
-		this.maxHostConnections = maxHostConnections;
-	}
-	/** Gets the max connections per host. */
-
-	public int getMaxConnectionsPerHost() {
-		return maxConnectionsPerHost;
-	}
-	/** Sets the max connections per host. */
-
-	public void setMaxConnectionsPerHost(int maxConnectionsPerHost) {
-		this.maxConnectionsPerHost = maxConnectionsPerHost;
-	}
-	/** Gets the max total connections. */
-
-	public int getMaxTotalConnections() {
-		return maxTotalConnections;
-	}
-	/** Sets the max total connections. */
-
-	public void setMaxTotalConnections(int maxTotalConnections) {
-		this.maxTotalConnections = maxTotalConnections;
-	}*/
 	
 	
 }
