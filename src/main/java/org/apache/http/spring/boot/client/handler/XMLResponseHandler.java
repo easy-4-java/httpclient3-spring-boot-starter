@@ -6,6 +6,7 @@ import java.io.StringReader;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.XMLConstants;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethodBase;
@@ -28,7 +29,25 @@ import org.apache.http.spring.boot.client.exception.HttpResponseException;
 public class XMLResponseHandler implements ResponseHandler<Document> {
 
 	/** Factory used to create the {@link DocumentBuilder} that parses the response body. */
-	private DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	private final DocumentBuilderFactory factory = secureFactory();
+
+	private static DocumentBuilderFactory secureFactory() {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		try {
+			factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+			factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+			factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+			factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+			factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+			factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+			factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+			factory.setXIncludeAware(false);
+			factory.setExpandEntityReferences(false);
+		} catch (ParserConfigurationException | IllegalArgumentException | UnsupportedOperationException ex) {
+			throw new IllegalStateException("Cannot configure a safe XML parser", ex);
+		}
+		return factory;
+	}
 	/**
 	 * <p>Handle client.</p>
 	 * @param httpclient the httpclient
