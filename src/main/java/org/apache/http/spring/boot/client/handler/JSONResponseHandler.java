@@ -10,7 +10,7 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.StatusLine;
 import org.apache.http.spring.boot.client.ContentType;
 import org.apache.http.spring.boot.client.exception.HttpResponseException;
-import org.apache.http.spring.boot.client.utils.HttpResponeUtils;
+import org.apache.http.spring.boot.utils.HttpResponeUtils;
 import org.apache.http.spring.boot.client.utils.IOUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
