@@ -1,6 +1,7 @@
  package org.apache.http.spring.boot.client.handler;
 
 import java.io.IOException;
+import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -11,6 +12,7 @@ import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.StatusLine;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import org.apache.http.spring.boot.client.exception.HttpResponseException;
@@ -34,7 +36,7 @@ public class XMLResponseHandler implements ResponseHandler<Document> {
 	
 	@Override
 	public void handleClient(HttpClient httpclient) {
-		
+
 	}
 	
 	/**
@@ -50,7 +52,7 @@ public class XMLResponseHandler implements ResponseHandler<Document> {
 		if (status >= HttpStatus.SC_OK && status < HttpStatus.SC_MULTIPLE_CHOICES) {
 	        try {
 	            DocumentBuilder docBuilder = factory.newDocumentBuilder();
-	            return docBuilder.parse(httpMethod.getResponseBodyAsString());
+	            return docBuilder.parse(new InputSource(new StringReader(httpMethod.getResponseBodyAsString())));
 	        } catch (ParserConfigurationException ex) {
 	            throw new IllegalStateException(ex);
 	        } catch (SAXException ex) {
@@ -63,4 +65,3 @@ public class XMLResponseHandler implements ResponseHandler<Document> {
     }
 }
 
- 
