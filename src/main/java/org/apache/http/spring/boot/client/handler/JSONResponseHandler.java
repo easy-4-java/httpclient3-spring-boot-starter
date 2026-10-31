@@ -3,6 +3,7 @@ package org.apache.http.spring.boot.client.handler;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import javax.xml.XMLConstants;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethodBase;
@@ -16,6 +17,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.xml.sax.SAXException;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -31,7 +33,26 @@ import com.alibaba.fastjson.JSONObject;
 public class JSONResponseHandler implements ResponseHandler<JSONObject> {
 
 	/** SAX reader used to parse XML response bodies. */
-	protected SAXReader reader = new SAXReader();
+	protected SAXReader reader = secureReader();
+
+	private static SAXReader secureReader() {
+		SAXReader reader = new SAXReader();
+		try {
+			reader.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+			reader.setFeature("http://xml.org/sax/features/external-general-entities", false);
+			reader.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+			reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+			reader.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+			reader.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+			reader.setIncludeExternalDTDDeclarations(false);
+			reader.setEntityResolver((publicId, systemId) -> {
+				throw new SAXException("External XML entities are disabled");
+			});
+		} catch (SAXException | IllegalArgumentException ex) {
+			throw new IllegalStateException("Cannot configure a safe XML parser", ex);
+		}
+		return reader;
+	}
 	/**
 	 * <p>Handle client.</p>
 	 * @param httpclient the httpclient
